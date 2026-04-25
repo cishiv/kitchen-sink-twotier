@@ -1,0 +1,22 @@
+{
+  "name": "@twotier/shared",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": { "types": "./src/index.ts", "default": "./src/index.ts" },
+    "./api": { "types": "./src/api/index.ts", "default": "./src/api/index.ts" },
+    "./errors": { "types": "./src/errors.ts", "default": "./src/errors.ts" }
+  },
+  "dependencies": {
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3"
+  },
+  "scripts": {
+    "typecheck": "bunx --bun tsc --noEmit",
+    "lint": "echo 'no lint configured for shared'",
+    "test": "echo 'no tests'"
+  }
+}

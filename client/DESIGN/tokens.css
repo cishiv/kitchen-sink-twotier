@@ -1,0 +1,150 @@
+/* Fabric — Orchestrated Monolith, paper edition
+   Light primary, dark available via [data-theme="dark"] on <html>. */
+
+:root {
+  /* Surfaces — tonal ladder. Separation = tonal shift, never a 1px line. */
+  --surface:              #fafaf7;
+  --surface-container:    #f3f2ec;
+  --surface-container-high:#ecebe5;
+  --surface-container-highest:#e3e2db;
+  --surface-inverse:      #14140f;
+
+  /* Ink */
+  --on-surface:           #14140f;
+  --on-surface-strong:    #000000;
+  --on-surface-muted:     #5c5b52;
+  --on-surface-faint:     #908f86;
+  --on-inverse:           #f4f3ee;
+
+  /* Roles — desaturated, shared chroma */
+  --primary:              oklch(0.62 0.11 240);
+  --primary-ink:          oklch(0.34 0.08 240);
+  --primary-wash:         oklch(0.94 0.03 240);
+  --primary-rule:         oklch(0.78 0.06 240);
+
+  --tertiary:             oklch(0.68 0.12 70);
+  --tertiary-wash:        oklch(0.95 0.04 70);
+
+  --secondary:            oklch(0.56 0.02 260);
+  --secondary-wash:        oklch(0.94 0.01 260);
+
+  --error:                oklch(0.55 0.13 25);
+  --error-wash:           oklch(0.95 0.03 25);
+
+  --agent:                oklch(0.64 0.10 190);   /* teal, peer-color — not purple */
+  --agent-wash:           oklch(0.95 0.03 190);
+
+  /* Rule — used ONLY when tonal shift isn't enough (rare) */
+  --rule-faint:           color-mix(in oklab, var(--on-surface) 5%, transparent);
+  --rule:                 color-mix(in oklab, var(--on-surface) 9%, transparent);
+
+  /* Radii, sharp by design */
+  --r-1: 2px;
+  --r-2: 4px;
+
+  /* Typography */
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-ui:      "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono:    "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Type scale — tight */
+  --t-xs:  10.5px;   /* metadata, mono */
+  --t-sm:  11.5px;   /* UI labels, caps */
+  --t-md:  13px;     /* body UI */
+  --t-lg:  15px;     /* section titles */
+  --t-xl:  19px;     /* panel titles */
+  --t-2xl: 26px;     /* screen titles */
+  --t-3xl: 38px;     /* display */
+
+  /* Spacing — 4px base */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 24px;
+  --s-6: 32px;
+  --s-7: 48px;
+
+  /* Row heights — tight */
+  --row-sm: 24px;
+  --row-md: 28px;
+  --row-lg: 32px;
+  --row-xl: 40px;
+
+  /* Navbar */
+  --nav-h: 44px;
+
+  /* Shadows — only for floating toolbars over canvas (rare) */
+  --lift-1: 0 1px 0 color-mix(in oklab, var(--on-surface) 6%, transparent),
+            0 2px 8px color-mix(in oklab, var(--on-surface) 6%, transparent);
+
+  /* Dot grid */
+  --dot: color-mix(in oklab, var(--on-surface) 9%, transparent);
+}
+
+:root[data-theme="dark"] {
+  --surface:              #0e0e0e;
+  --surface-container:    #161615;
+  --surface-container-high:#1e1e1c;
+  --surface-container-highest:#27272421;
+  --surface-inverse:      #f4f3ee;
+
+  --on-surface:           #ecebe5;
+  --on-surface-strong:    #ffffff;
+  --on-surface-muted:     #8b8a82;
+  --on-surface-faint:     #5c5b52;
+  --on-inverse:           #14140f;
+
+  --primary:              oklch(0.78 0.09 240);
+  --primary-ink:          oklch(0.88 0.06 240);
+  --primary-wash:         oklch(0.28 0.06 240);
+  --primary-rule:         oklch(0.40 0.06 240);
+
+  --tertiary:             oklch(0.80 0.11 70);
+  --tertiary-wash:        oklch(0.28 0.06 70);
+
+  --secondary:            oklch(0.70 0.02 260);
+  --secondary-wash:       oklch(0.22 0.01 260);
+
+  --error:                oklch(0.70 0.13 25);
+  --error-wash:           oklch(0.28 0.06 25);
+
+  --agent:                oklch(0.78 0.09 190);
+  --agent-wash:           oklch(0.26 0.05 190);
+
+  --rule-faint:           color-mix(in oklab, var(--on-surface) 5%, transparent);
+  --rule:                 color-mix(in oklab, var(--on-surface) 10%, transparent);
+
+  --dot: color-mix(in oklab, var(--on-surface) 9%, transparent);
+}
+
+/* Reset + base */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: var(--font-ui);
+  font-size: var(--t-md);
+  line-height: 1.35;
+  color: var(--on-surface);
+  background: var(--surface);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
+}
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+input, textarea { font: inherit; color: inherit; }
+
+/* Utility */
+.mono { font-family: var(--font-mono); font-feature-settings: "tnum", "zero"; }
+.caps { font-size: var(--t-sm); letter-spacing: 0.12em; text-transform: uppercase; color: var(--on-surface-muted); }
+.caps-strong { font-size: var(--t-sm); letter-spacing: 0.12em; text-transform: uppercase; color: var(--on-surface); }
+
+/* Scrollbar — restrained */
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-thumb { background: var(--surface-container-highest); border-radius: 0; }
+*::-webkit-scrollbar-track { background: transparent; }
+
+/* Focus — ink ring, not glow */
+:focus-visible { outline: 2px solid var(--primary); outline-offset: 1px; }
+
+/* Selection */
+::selection { background: var(--primary-wash); color: var(--on-surface); }
