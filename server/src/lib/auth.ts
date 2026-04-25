@@ -3,15 +3,32 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { username } from "better-auth/plugins";
 import * as schema from "@/db/schema";
 import { db } from "@/lib/db";
-import { env } from "@/lib/env";
+import { requireEnv } from "@/lib/env";
 
-export const auth = betterAuth({
-  database: drizzleAdapter(db, { provider: "pg", schema }),
-  emailAndPassword: { enabled: true },
-  plugins: [username()],
-  trustedOrigins: env.TRUSTED_ORIGINS.split(",").map((s) => s.trim()),
-  secret: env.BETTER_AUTH_SECRET,
-  baseURL: env.BETTER_AUTH_URL,
+const createAuth = () =>
+  betterAuth({
+    database: drizzleAdapter(db, { provider: "pg", schema }),
+    emailAndPassword: { enabled: true },
+    plugins: [username()],
+    trustedOrigins: requireEnv("TRUSTED_ORIGINS")
+      .split(",")
+      .map((s) => s.trim()),
+    secret: requireEnv("BETTER_AUTH_SECRET"),
+    baseURL: requireEnv("BETTER_AUTH_URL"),
+  });
+
+type Auth = ReturnType<typeof createAuth>;
+
+let cached: Auth | null = null;
+
+const getAuth = (): Auth => {
+  if (cached) return cached;
+  cached = createAuth();
+  return cached;
+};
+
+export const auth = new Proxy({} as Auth, {
+  get: (_, prop, receiver) => Reflect.get(getAuth(), prop, receiver),
 });
 
-export type Session = typeof auth.$Infer.Session;
+export type Session = Auth["$Infer"]["Session"];
