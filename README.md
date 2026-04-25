@@ -11,7 +11,9 @@ Use this template when you need:
   clients on one API, or non-trivial server-side processing).
 - Auth + database + billing + file storage + LLM access on day one.
 
-If you don't need any of that, prefer a single Next.js app instead.
+If you don't need a separate API tier, prefer the single-bundle
+TanStack Start variant: [`cishiv/kitchen-sink-ts`](https://github.com/cishiv/kitchen-sink-ts).
+Same features, one deployable.
 
 ---
 
