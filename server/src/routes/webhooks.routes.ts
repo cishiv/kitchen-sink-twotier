@@ -4,7 +4,7 @@ import {
 } from "@polar-sh/sdk/webhooks";
 import { Hono } from "hono";
 import { db } from "@/lib/db";
-import { env } from "@/lib/env";
+import { requireEnv } from "@/lib/env";
 import { polar } from "@/lib/polar";
 import {
   type PolarSubscriptionPayload,
@@ -22,7 +22,7 @@ export const webhookRoutes = new Hono().post("/webhooks/polar", async (c) => {
 
   let event: ReturnType<typeof validateEvent>;
   try {
-    event = validateEvent(raw, headers, env.POLAR_WEBHOOK_SECRET);
+    event = validateEvent(raw, headers, requireEnv("POLAR_WEBHOOK_SECRET"));
   } catch (err) {
     if (err instanceof WebhookVerificationError) {
       return c.json({ error: "invalid signature" }, 401);

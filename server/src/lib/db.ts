@@ -1,9 +1,24 @@
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 import * as schema from "@/db/schema";
-import { env } from "@/lib/env";
+import { requireEnv } from "@/lib/env";
 
-const client = postgres(env.DATABASE_URL);
+const createDb = () =>
+  drizzle(postgres(requireEnv("DATABASE_URL")), {
+    schema,
+    casing: "snake_case",
+  });
 
-export const db = drizzle(client, { schema, casing: "snake_case" });
-export type DB = typeof db;
+export type DB = ReturnType<typeof createDb>;
+
+let cached: DB | null = null;
+
+const getDb = (): DB => {
+  if (cached) return cached;
+  cached = createDb();
+  return cached;
+};
+
+export const db = new Proxy({} as DB, {
+  get: (_, prop, receiver) => Reflect.get(getDb(), prop, receiver),
+});

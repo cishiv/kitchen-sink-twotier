@@ -4,7 +4,7 @@ import {
   CreateCheckoutRequestSchema,
 } from "@twotier/shared/api";
 import { db } from "@/lib/db";
-import { env } from "@/lib/env";
+import { requireEnv } from "@/lib/env";
 import { notFound, validationFailed } from "@/lib/errors";
 import { polar } from "@/lib/polar";
 import type { AuthVariables } from "@/middleware/auth";
@@ -28,7 +28,7 @@ export const handleCreateCheckout = async (
     userId: user.id,
     userEmail: user.email,
     productId: body.data.productId,
-    successUrl: env.POLAR_SUCCESS_URL,
+    successUrl: requireEnv("POLAR_SUCCESS_URL"),
   });
   return c.json(result);
 };
